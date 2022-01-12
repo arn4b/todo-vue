@@ -6,23 +6,15 @@
       <input
         v-model="task"
         placeholder="Enter task"
-        class="input"
+        class="input mr-2"
         type="text"
       />
       <button class="btn warning" @click="submitTask">SUBMIT</button>
     </div>
 
     <div class="mt-5">
-      <!-- <thead>
-        <tr>
-          <th scope="col">Task</th>
-          <th scope="col" style="width: 120px">Status</th>
-          <th scope="col" class="text-center">#</th>
-          <th scope="col" class="text-center">#</th>
-        </tr>
-      </thead> -->
       <div>
-        <div class="flexxx" v-for="(task, index) in tasks" :key="index">
+        <div class="flexxx my-5" v-for="(task, index) in tasks" :key="index">
           <div>
             <h3 :class="{ 'line-through': task.status === 'finished' }">
               {{ task.name }}
@@ -34,11 +26,6 @@
               <h3
                 class="pointer noselect"
                 @click="changeStatus(index)"
-                :class="{
-                  'text-danger': task.status === 'To-do',
-                  'text-success': task.status === 'Finished',
-                  'text-warning': task.status === 'In-progress',
-                }"
               >
                 <button class="btn primary">{{ task.status }}</button>
               </h3>
@@ -62,7 +49,7 @@
 
 <script>
 export default {
-  name: "HelloWorld",
+  name: "Todo App",
   props: {
     msg: String,
   },
@@ -75,53 +62,39 @@ export default {
       tasks: [
         {
           name: "Go to market",
-          status: "To-do",
+          status: "to-do",
         },
         {
           name: "Complete Assignment",
-          status: "In-progress",
+          status: "in-progress",
         },
       ],
     };
   },
 
   methods: {
-    /**
-     * Change status of task by index
-     */
     changeStatus(index) {
       let newIndex = this.statuses.indexOf(this.tasks[index].status);
       if (++newIndex > 2) newIndex = 0;
       this.tasks[index].status = this.statuses[newIndex];
     },
 
-    /**
-     * Deletes task by index
-     */
     deleteTask(index) {
       this.tasks.splice(index, 1);
     },
 
-    /**
-     * Edit task
-     */
     editTask(index) {
       this.task = this.tasks[index].name;
       this.editedTask = index;
     },
 
-    /**
-     * Add / Update task
-     */
     submitTask() {
       if (this.task.length === 0) return;
 
-      /* We need to update the task */
       if (this.editedTask != null) {
         this.tasks[this.editedTask].name = this.task;
         this.editedTask = null;
       } else {
-        /* We need to add new task */
         this.tasks.push({
           name: this.task,
           status: "todo",
@@ -138,15 +111,7 @@ export default {
 .pointer {
   cursor: pointer;
 }
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-}
+
 .line-through {
   text-decoration: line-through;
 }
